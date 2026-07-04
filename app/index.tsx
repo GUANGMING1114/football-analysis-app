@@ -4,6 +4,7 @@ import { MatchCard } from '@/components/MatchCard';
 
 import { requestNotificationPermissions, scheduleMatchReminder } from '@/services/notifications';
 import { getWorldCupMatches } from '@/services/world-cup';
+import { apiFootballDataProvider } from '@/services/data-providers/api-provider';
 import { mockFootballDataProvider } from '@/services/data-providers/mock-provider';
 import type { Match } from '@/types/football';
 
@@ -17,11 +18,16 @@ export default function HomeScreen() {
   async function load() {
     setLoading(true);
     try {
-      // 手机 App 默认使用 mock 数据，避免后端不可用时无法使用
-      const data = await mockFootballDataProvider.getUpcomingMatches();
+      // 优先请求公网后端，失败后再使用 mock 数据
+      const data = await apiFootballDataProvider.getUpcomingMatches().catch(async (err) => {
+        console.warn('公网后端请求失败，使用 mock 数据:', err);
+        return mockFootballDataProvider.getUpcomingMatches();
+      });
       setMatches(data);
     } catch (error) {
       console.error(error);
+      const fallback = await mockFootballDataProvider.getUpcomingMatches();
+      setMatches(fallback);
     } finally {
       setLoading(false);
     }
