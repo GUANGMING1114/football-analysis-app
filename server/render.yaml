@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: football-analysis-api
+    env: python
+    buildCommand: ""
+    startCommand: "python football_api.py"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.4
+      - key: PORT
+        value: 8787
