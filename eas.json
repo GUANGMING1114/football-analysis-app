@@ -9,7 +9,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://127.0.0.1:8787"
+        "EXPO_PUBLIC_API_URL": "https://football-analysis-app-production.up.railway.app"
       }
     },
     "preview-apk": {
@@ -18,7 +18,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "http://127.0.0.1:8787"
+        "EXPO_PUBLIC_API_URL": "https://football-analysis-app-production.up.railway.app"
       }
     },
     "production": {
@@ -26,7 +26,7 @@
         "buildType": "app-bundle"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://你的生产域名/api"
+        "EXPO_PUBLIC_API_URL": "https://football-analysis-app-production.up.railway.app"
       }
     }
   }
