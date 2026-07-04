@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "足球分析模型",
+    "slug": "football-analysis-app",
+    "scheme": "football-analysis",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#07111f"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.yourcompany.footballanalysis",
+      "adaptiveIcon": {
+        "backgroundColor": "#07111f"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "7e758a73-f6df-4792-8e72-762b5b891af5"
+      }
+    },
+    "owner": "wangguangming"
+  }
+}
