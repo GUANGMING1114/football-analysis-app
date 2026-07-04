@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>足球分析模型 - 下载</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <meta name="theme-color" content="#07111f">
+  <meta name="description" content="综合足球分析平台，自动抓取公开数据，输出胜平负、大小球、比分区间、风险等级与关键因素。">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="足球分析模型">
+  <style>
+    :root {
+      --bg: #07111f;
+      --card: #102033;
+      --card-2: #0f2742;
+      --border: #1e3654;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #22c55e;
+      --accent-2: #2563eb;
+      --accent-light: #7dd3fc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      line-height: 1.6;
+    }
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 24px 20px 80px;
+      position: relative;
+    }
+    .brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+    .logo {
+      width: 96px;
+      height: 96px;
+      margin: 0 auto 16px;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 14px;
+    }
+    .logo img { width: 100%; height: 100%; }
+    h1 { font-size: 26px; font-weight: 900; margin-bottom: 8px; }
+    .subtitle { color: var(--muted); font-size: 15px; padding: 0 12px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .card-title {
+      font-size: 17px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .icon { font-size: 20px; }
+    .card-desc { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border-radius: 14px;
+      border: none;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.1s ease, opacity 0.2s ease;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: linear-gradient(135deg, #22c55e, #16a34a); color: #fff; }
+    .btn-secondary { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; }
+    .btn:disabled { background: #334155; color: var(--muted); cursor: not-allowed; }
+
+    .qr-wrap {
+      background: #fff;
+      border-radius: 16px;
+      padding: 16px;
+      display: inline-block;
+      margin: 0 auto 12px;
+    }
+    #qrcode { display: block; }
+    .qr-caption { text-align: center; color: var(--muted); font-size: 13px; }
+
+    .features { margin: 24px 0; }
+    .features li {
+      list-style: none;
+      color: #dbeafe;
+      font-size: 14px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .features li:last-child { border-bottom: none; }
+    .features .check { color: var(--accent); font-weight: 900; flex-shrink: 0; }
+
+    .steps {
+      counter-reset: step;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 14px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+    .step-number {
+      background: var(--accent-2);
+      color: #fff;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .ios-hint, .android-hint {
+      background: var(--card-2);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      color: #dbeafe;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .footer {
+      color: #475569;
+      font-size: 12px;
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: #f8fafc;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="brand">
+      <div class="logo"><img src="/icon.svg" alt="足球分析模型"></div>
+      <h1>足球分析模型</h1>
+      <p class="subtitle">综合足球分析平台，自动抓取公开数据，结合近期战绩、xG 和伤停，输出可解释的比赛分析。</p>
+    </div>
+
+    <div class="card" style="text-align:center">
+      <div class="card-title" style="justify-content:center"><span class="icon">📱</span> 扫码立即体验</div>
+      <p class="card-desc">用手机浏览器扫描下方二维码，即可打开 PWA 或直接下载 APK。</p>
+      <div class="qr-wrap"><canvas id="qrcode" width="180" height="180"></canvas></div>
+      <p class="qr-caption">当前访问链接：<span id="current-url">Loading...</span></p>
+      <button class="btn btn-secondary" style="margin-top:14px" onclick="copyLink()">复制链接</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🔗</span> 分享给好友</div>
+      <p class="card-desc">把下面这个链接或二维码分享给朋友，他们可以直接打开或下载。</p>
+      <div style="background:var(--card-2); border-radius:12px; padding:12px; word-break:break-all; font-size:13px; color:#7dd3fc; margin-bottom:12px;" id="share-url">Loading...</div>
+      <button class="btn btn-secondary" onclick="copyShareUrl()">复制分享链接</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🚀</span> 方式一：PWA 安装</div>
+      <p class="card-desc">无需下载安装包，点击下面按钮打开，然后添加到主屏幕，即可像原生 App 一样使用。</p>
+      <button class="btn btn-primary" onclick="openPwa()">立即打开 PWA</button>
+      <div class="android-hint" id="androidHint">
+        <strong>Android 用户：</strong>Chrome 打开后，点击底部弹出的「添加到主屏幕」即可。
+      </div>
+      <div class="ios-hint" id="iosHint">
+        <strong>iOS 用户：</strong>Safari 打开后，点击底部分享按钮，选择「添加到主屏幕」。
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">📥</span> 方式二：APK 下载</div>
+      <p class="card-desc">Android 用户可直接下载安装包。iPhone 用户请使用上方 PWA 方式。</p>
+      <button class="btn btn-secondary" id="apkBtn" onclick="downloadApk()" disabled>APK 构建中...</button>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🪜</span> 添加到主屏幕步骤</div>
+      <div class="steps">
+        <div class="step"><div class="step-number">1</div><div>点击上方「立即打开 PWA」按钮，用浏览器打开。</div></div>
+        <div class="step"><div class="step-number">2</div><div>在浏览器菜单中找到「添加到主屏幕」或「安装应用」。</div></div>
+        <div class="step"><div class="step-number">3</div><div>确认添加，之后桌面会出现「足球分析模型」图标，点击即可使用。</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon">🔧</span> 构建原生 APK</div>
+      <p class="card-desc">想下载原生 APK 需要先注册 Expo 账号。点击下方按钮跳转注册，完成后告诉我即可继续构建。</p>
+      <a class="btn btn-secondary" href="https://expo.dev/signup" target="_blank">前往 Expo 注册</a>
+    </div>
+
+    <ul class="features">
+      <li><span class="check">✓</span><span>自动抓取公开比赛数据</span></li>
+      <li><span class="check">✓</span><span>胜平负 / 大小球 / 比分区间概率分析</span></li>
+      <li><span class="check">✓</span><span>近期战绩、xG、伤停展示</span></li>
+      <li><span class="check">✓</span><span>赛前推送提醒</span></li>
+      <li><span class="check">✓</span><span>历史预测与复盘统计</span></li>
+    </ul>
+
+    <p class="footer">本应用仅用于足球数据分析参考，不构成任何投注建议。</p>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script>
+    // ==========================================
+    // 配置区：APK 构建完成后，把下载链接填在这里
+    // 示例：const APK_DOWNLOAD_URL = "https://example.com/app.apk";
+    // ==========================================
+    const APK_DOWNLOAD_URL = "https://expo.dev/artifacts/eas/OQZedM40Huhpq4-f2nNtAjeZZpPqUeomTDSZQK9x7UM.apk";
+
+    const currentUrl = window.location.origin + '/'; // PWA entry
+
+    function init() {
+      document.getElementById('current-url').textContent = currentUrl;
+      document.getElementById('share-url').textContent = currentUrl;
+      generateQR(currentUrl);
+      detectPlatform();
+      checkApkUrl();
+    }
+
+    function generateQR(url) {
+      QRCode.toCanvas(document.getElementById('qrcode'), url, {
+        width: 180,
+        margin: 2,
+        color: { dark: '#07111f', light: '#ffffff' }
+      }, function (err) {
+        if (err) console.error('QRCode error:', err);
+      });
+    }
+
+    function detectPlatform() {
+      const ua = navigator.userAgent.toLowerCase();
+      const isIOS = /iphone|ipad|ipod/.test(ua);
+      const isAndroid = /android/.test(ua);
+      if (isIOS) document.getElementById('iosHint').style.display = 'block';
+      if (isAndroid) document.getElementById('androidHint').style.display = 'block';
+    }
+
+    function openPwa() {
+      window.location.href = '/';
+    }
+
+    function downloadApk() {
+      const url = APK_DOWNLOAD_URL || localStorage.getItem('apkUrl');
+      if (url && url !== '#') {
+        window.location.href = url;
+      } else {
+        showToast('APK 构建完成后会替换为真实下载链接，当前请先使用 PWA 版本。');
+      }
+    }
+
+    function copyLink() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentUrl).then(() => showToast('链接已复制'));
+      } else {
+        showToast('请手动复制地址栏链接');
+      }
+    }
+
+    function copyShareUrl() {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(currentUrl).then(() => showToast('分享链接已复制'));
+      } else {
+        showToast('请手动复制地址栏链接');
+      }
+    }
+
+    function checkApkUrl() {
+      const btn = document.getElementById('apkBtn');
+      const url = APK_DOWNLOAD_URL || localStorage.getItem('apkUrl');
+      if (url && url !== '#') {
+        btn.disabled = false;
+        btn.textContent = '下载 APK';
+        btn.onclick = () => window.location.href = url;
+      } else {
+        btn.disabled = true;
+        btn.textContent = 'APK 构建中...';
+        btn.onclick = () => showToast('APK 构建完成后会替换为真实下载链接，当前请先使用 PWA 版本。');
+      }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    init();
+  </script>
+</body>
+</html>
